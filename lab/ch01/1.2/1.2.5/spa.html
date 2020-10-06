@@ -67,19 +67,24 @@
         toggleSlider = function() {
           var
             slider_height = $chatSlider.height();
-
-            if (slider_height === configMap.retracted_height) {
-              // extend slider if fully retracted
+            
+            // extend slider if fully retracted
+            if (slider_height === configMap.retracted_height) 
+            {
               $chatSlider.animate({height: configMap.extended_height})
                          .attr('title', configMap.extended_title);
               return true;
-            } else if (slider_height === configMap.extended_height) {
-              // retract slider if fully extended
+            }
+            // retract slider if fully extended
+            else if (slider_height === configMap.extended_height) 
+            {
               $chatSlider.animate({height: configMap.retracted_height})
                          .attr('title', configMap.retracted_title);
               return true;
-            } else {
-              // do not take action if slider is in transition
+            }
+            // do not take action if slider is in transition
+            else 
+            {
               return false;
             }
         };
