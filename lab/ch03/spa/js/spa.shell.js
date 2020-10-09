@@ -109,6 +109,7 @@ spa.shell = (function() {
             }
           }
         );
+        return true;
       }
       // End extend chat slider
       // Begin retract chat slider
@@ -130,6 +131,7 @@ spa.shell = (function() {
             }
           }
         );
+        return true;
       }
       // End retract chat slider
     }
