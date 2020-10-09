@@ -12,7 +12,7 @@
 /*global $, spa */
 
 spa.shell = (function() {
-  //--------------- BEGIN MODULE SCOPE VARIABLES --------------
+  //---------------- BEGIN MODULE SCOPE VARIABLES ----------------
   var
     configMap = {
       main_html: String()
@@ -43,12 +43,12 @@ spa.shell = (function() {
     toggleChat,
     setJqueryMap,
     initModule;
-  //--------------- END MODULE SCOPE VARIABLES ----------------
+  //---------------- END MODULE SCOPE VARIABLES ------------------
 
-  //--------------- BEGIN UTILITY METHODS ---------------------
-  //--------------- END UTILITY METHODS -----------------------
+  //---------------- BEGIN UTILITY METHODS -----------------------
+  //---------------- END UTILITY METHODS -------------------------
   
-  //--------------- BEGIN DOM METHODS -------------------------
+  //---------------- BEGIN DOM METHODS ---------------------------
   // Begin DOM method /setJqueryMap/
   setJqueryMap = function() {
     var $container = stateMap.$container;
@@ -137,9 +137,9 @@ spa.shell = (function() {
     }
   };
   // End DOM method /toggleChat/
-  //--------------- END DOM METHODS ---------------------------
+  //---------------- END DOM METHODS -----------------------------
 
-  //--------------- BEGIN EVENT HANDLERS ----------------------
+  //---------------- BEGIN EVENT HANDLERS ------------------------
   onClickChat = function(event) {
     var do_extend;
     if (stateMap.is_chat_retracted)
@@ -160,9 +160,9 @@ spa.shell = (function() {
     }
     return false;
   };
-  //--------------- END EVENT HANDLERS ------------------------
+  //---------------- END EVENT HANDLERS --------------------------
   
-  //--------------- BEGIN PUBLIC METHODS ----------------------
+  //---------------- BEGIN PUBLIC METHODS ------------------------
   // Begin public method /initModule/
   initModule = function($container) {
     // load HTML and map jQuery collections
@@ -181,6 +181,6 @@ spa.shell = (function() {
   return {
     initModule: initModule
   };
-  //--------------- END PUBLIC METHODS ------------------------
+  //---------------- END PUBLIC METHODS --------------------------
   ;
 } ());
