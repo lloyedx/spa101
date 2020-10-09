@@ -40,8 +40,8 @@ spa.shell = (function() {
       is_chat_retracted: true
     },
     jqueryMap = {},
-    toggleChat,
     setJqueryMap,
+    toggleChat,
     initModule;
   //---------------- END MODULE SCOPE VARIABLES ------------------
 
