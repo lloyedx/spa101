@@ -150,7 +150,14 @@ spa.shell = (function() {
     {
       do_extend = false;
     }
-    toggleChat(do_extend);
+    if (toggleChat(do_extend))
+    {
+      $.uriAnchor.setAnchor(
+        {
+          chat: (do_extend ? 'open' : 'closed')
+        }
+      );
+    }
     return false;
   };
   //--------------- END EVENT HANDLERS ------------------------
