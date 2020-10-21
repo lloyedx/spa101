@@ -47,6 +47,27 @@ spa.chat = (function() {
   //---------------- END DOM METHODS -----------------------------
 
   //---------------- BEGIN PUBLIC METHODS ------------------------
+  // Begin public method /configModule/
+  // Example: spa.chat.configModule({slider_open_em:18});
+  // Purpose: Configure the module prior to initialization
+  // Arguments:
+  //   * set_chat_anchor - a callback to modify the URI anchor to
+  //       indicate opened or closed state. This callback must return
+  //       false if the requested state cannot be met.
+  //   * chat_model - the chat model object provides methods
+  //       to interact with our instant messaging
+  //   * people_model - the people model object which provides methods
+  //       to manage the list of people the model maintains
+  //   * slider_* settings - All these are optional scalars.
+  //       See mapConfig.settable_map for a full list.
+  //       Example: slider_open_em is the open height in em's
+  // Action:
+  //   The internal configuration data structure (configMap) is
+  //   updated with provided arguments. No other actions are taken.
+  // Returns: true
+  // Throws: JavaScript error object and stack trace on unacceptable
+  //         or missing arguments.
+  //
   // Begin public method /configureModule/
   // Purpose: Adjust configuration of allowed keys
   // Arguments:
