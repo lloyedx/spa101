@@ -119,6 +119,24 @@ spa.chat = (function() {
   };
   // End public method /initModule/
 
+  // Begin public method /setSliderPosition/
+  //
+  // Example: spa.chat.setSliderPosition('closed');
+  // Purpose: Ensure chat slider is in the requested state
+  // Arguments:
+  //   * position_type - enum('closed', 'opened', or 'hidden')
+  //   * callback - optional callback at the end of animation.
+  //       (callback receives slider DOM element as argument)
+  // Action:
+  //   Leaves slider in current state if it matches requested,
+  //   otherwise animate to requested state.
+  // Returns:
+  //   * true - requested state achieved
+  //   * false - requested state not achieved
+  // Throws: none
+  //
+  // End public method /setSliderPosition/
+
   // return public methods
   return {
     configModule: configModule,
