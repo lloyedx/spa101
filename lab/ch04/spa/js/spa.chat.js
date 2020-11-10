@@ -80,7 +80,9 @@ spa.chat = (function() {
     onClickToggle,
     configModule,
     initModule,
-    setSliderPosition;
+    setSliderPosition,
+    removeSlider,
+    handleResize;
   //---------------- END MODULE SCOPE VARIABLES ------------------
 
   //---------------- BEGIN UTILITY METHODS -----------------------
@@ -291,7 +293,9 @@ spa.chat = (function() {
   return {
     configModule: configModule,
     initModule: initModule,
-    setSliderPosition: setSliderPosition
+    setSliderPosition: setSliderPosition,
+    removeSlider: removeSlider,
+    handleResize: handleResize
   };
   //---------------- END PUBLIC METHODS --------------------------
 } ());
