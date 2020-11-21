@@ -10,7 +10,7 @@
   white   : true
 */
 
-/*global $, spa */
+/*global TAFFY, $, spa */
 
 spa.model = (function() {
   'use strict';
