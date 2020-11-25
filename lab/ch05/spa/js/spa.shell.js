@@ -12,6 +12,7 @@
 /*global $, spa */
 
 spa.shell = (function() {
+  'use strict';
   //---------------- BEGIN MODULE SCOPE VARIABLES ----------------
   var
     configMap = {
@@ -23,9 +24,11 @@ spa.shell = (function() {
       },
       main_html: String()
         + '<div class="spa-shell-head">'
-        +   '<div class="spa-shell-head-logo"></div>'
+        +   '<div class="spa-shell-head-logo">'
+        +     '<h1>SPA</h1>'
+        +     '<p>javascript end to end</p>'
+        +   '</div>'
         +   '<div class="spa-shell-head-account"></div>'
-        +   '<div class="spa-shell-head-search"></div>'
         + '</div>'
         + '<div class="spa-shell-main">'
         +   '<div class="spa-shell-main-nav"></div>'
@@ -51,6 +54,9 @@ spa.shell = (function() {
     setJqueryMap,
     changeAnchorPart,
     onHashchange,
+    onTapAccount,
+    onLogin,
+    onLogout,
     onResize,
     setChatAnchor,
     initModule;
@@ -68,7 +74,9 @@ spa.shell = (function() {
   setJqueryMap = function() {
     var $container = stateMap.$container;
     jqueryMap = {
-      $container: $container
+      $container: $container,
+      $account: $container.find('.spa-shell-head-account'),
+      $nav: $container.find('.spa-shell-main-nav')
     };
   };
   // End DOM method /setJqueryMap/
@@ -248,6 +256,40 @@ spa.shell = (function() {
     }
   };
   // End Event handler /onResize/
+
+  // Begin Event handler /onTapAccount/
+  onTapAccount = function(event) {
+    var
+      account_text,
+      user_name,
+      user = spa.model.people.get_user();
+
+    if (user.get_is_anon())
+    {
+      user_name = prompt('Please sign in');
+      spa.model.people.login(user_name);
+      jqueryMap.$account.text('... processing ...');
+    }
+    else
+    {
+      spa.model.people.logout();
+    }
+    return false;
+  };
+  // End Event handler /onTapAccount/
+
+  // Begin Event handler /onLogin/
+  onLogin = function(event, login_user) {
+    jqueryMap.$account.text(login_user.name);
+  };
+  // End Event handler /onLogin/
+
+  // Begin Event handler /onLogout/
+  onLogout = function(event, logout_user) {
+    jqueryMap.$account.text('Please sign in');
+  };
+  // End Event handler /onLogout/
+
   //---------------- END EVENT HANDLERS --------------------------
 
   //---------------- BEGIN CALLBACKS -----------------------------
@@ -323,6 +365,13 @@ spa.shell = (function() {
       .bind('resize', onResize)
       .bind('hashchange', onHashchange)
       .trigger('hashchange');
+
+    $.gevent.subscribe($container, 'spa-login', onLogin);
+    $.gevent.subscribe($container, 'spa-logout', onLogout);
+
+    jqueryMap.$account
+      .text('Please sign in')
+      .bind('utap', onTapAccount);
   };
   // End public method /initModule/
 
