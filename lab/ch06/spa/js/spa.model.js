@@ -228,6 +228,60 @@ spa.model = (function() {
     };
   } ());
 
+  // The chat object API
+  // -------------------
+  // The chat object is available at spa.model.chat.
+  // The chat object provides methods and events to manage
+  // chat messaging.
+  // 
+  // Its public method include:
+  //   * join() - join the chat room. This routine sets up
+  //     the chat protocol with the backend including publishers
+  //     for 'spa-listchange' and 'spa-updatechat' global
+  //     custom events. If the current user is anonymous,
+  //     join() aborts and returns false.
+  //   * get_chatee() - return the person object with whom the user
+  //     is chatting. If there is no chatee, null is returned. 
+  //   * set_chatee(<person_id>) - set the chatee to the person
+  //     identified by person_id. If the person_id does not exist 
+  //     in the people list, the chatee is set to null. If the 
+  //     person requested is already the chatee, it returns false. 
+  //     It publishes a 'spa-setchatee' global custom event.
+  //   * send_msg(<msg_text>) - send a message to the chatee.
+  //     It publishes an 'spa-updatechat' global custom event.
+  //     If the user is anonymous or the chatee is null, it
+  //     aborts and returns false.
+  //   * update_avatar(<update_avtr_map>) - send the
+  //     update_avtr_map to the backend. This result in an
+  //     'spa-listchange' event which publishes the updated
+  //     people list and avatar list (the css_map in the
+  //     person objects). The update_avtr_map must have the form
+  //     { person_id: personid, css_map: css_map }
+  //
+  // jQuery global custom events published by the object include:
+  //   * spa-setchatee - This is published when a new chatee is 
+  //     set. A map of the form:
+  //       {
+  //         old_chatee : <old_chatee_person_object>
+  //         new_chatee : <new_chatee_person_object>
+  //       }
+  //     is provided as data.
+  //   * spa-listchange - This is published when a list of
+  //     online people changes in length (i.e. when a person
+  //     joins or leaves a chat) or when their contents change
+  //     (i.e. when a person's avtar details change).
+  //     A subscriber to this event should get the people_db
+  //     from the people model for the updated data.
+  //   * spa-updatechat - This is published when a new message
+  //     is received or sent. A map of the form:
+  //       {
+  //         dest_id : <chatee_id>,
+  //         dest_name : <chatee_name>,
+  //         sender_id : <sender_id>,
+  //         msg_text : <message_content>
+  //       }
+  //     is provided as data.
+
   initModule = function() {
     var
       i,
