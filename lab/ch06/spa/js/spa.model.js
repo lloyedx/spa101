@@ -21,6 +21,7 @@ spa.model = (function() {
     stateMap = {
       anon_user: null,
       cid_serial: 0,
+      is_connected: false,
       people_cid_map: {},
       people_db: TAFFY(),
       user: null
@@ -33,6 +34,7 @@ spa.model = (function() {
     makePerson,
     removePerson,
     people,
+    chat,
     initModule;
 
   // The people object API
@@ -281,13 +283,93 @@ spa.model = (function() {
   //         msg_text : <message_content>
   //       }
   //     is provided as data.
+  chat = (function() {
+    var
+      _update_list,
+      _publish_listchange,
+      leave_chat,
+      join_chat;
+    
+    // Begin internal methods
+    _update_list = function(arg_list) {
+      var
+        i,
+        person_map,
+        make_person_map,
+        people_list = arg_list[0];
+
+      clearPeopleDb();
+
+      PERSON:
+      for (i = 0; i < people_list.length; i = i + 1) {
+        person_map = people_list[i];
+        if (!person_map.name)
+        {
+          continue PERSON;
+        }
+        // if user defined, update css_map and skip remainder
+        else if (stateMap.user && stateMap.user.id === person_map._id)
+        {
+          stateMap.user.css_map = person_map.css_map;
+          continue PERSON;
+        }
+        else
+        {
+          make_person_map = {
+            cid: person_map._id,
+            css_map: person_map.css_map,
+            id: person_map._id,
+            name: person_map.name
+          };
+          makePerson(make_person_map);
+        }
+      }
+
+      stateMap.people_db.sort('name');
+    };
+
+    _publish_listchange = function(arg_list) {
+      _update_list(arg_list);
+      $.gevent.publish('spa-listchange', [arg_list]);
+    };
+    // End internal methods
+
+    leave_chat = function() {
+      var sio = isFakeData ? spa.fake.mockSio : spa.data.getSio();
+      stateMap.is_connected = false;
+      if (sio)
+      {
+        sio.emit('leavechat');
+      }
+    };
+
+    join_chat = function() {
+      var sio;
+      if (stateMap.is_connected)
+      {
+        return false;
+      }
+      else if (stateMap.user.get_is_anon())
+      {
+        console.warn('User must be defined before joining chat');
+        return false;
+      }
+      else
+      {
+        sio = isFakeData ? spa.fake.mockSio : spa.data.getSio();
+        sio.on('listchange', _publish_listchange);
+        stateMap.is_connected = true;
+        return true; 
+      }
+    };
+
+    return {
+      leave: leave_chat,
+      join: join_chat
+    };
+  } ());
 
   initModule = function() {
-    var
-      i,
-      people_list,
-      person_map;
-
     // initialize anonymous person
     stateMap.anon_user = makePerson(
       {
@@ -297,27 +379,11 @@ spa.model = (function() {
       }
     );
     stateMap.user = stateMap.anon_user;
-
-    if (isFakeData)
-    {
-      people_list = spa.fake.getPeopleList();
-      for (i = 0; i < people_list.length; i = i + 1)
-      {
-        person_map = people_list[i];
-        makePerson(
-          {
-            cid: person_map._id,
-            id: person_map._id,
-            name: person_map.name,
-            css_map: person_map.css_map
-          }
-        );
-      }
-    }
   };
 
   return {
     initModule: initModule,
-    people: people
+    people: people,
+    chat: chat
   };
 } ());
