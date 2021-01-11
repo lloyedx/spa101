@@ -210,12 +210,11 @@ spa.model = (function() {
 
     logout = function() {
       var
-        is_removed,
         user = stateMap.user;
 
       chat.leave();
-      is_removed = removePerson(user);
       stateMap.user = stateMap.anon_user;
+      clearPeopleDb();
 
       $.gevent.publish('spa-logout', [user]);
       return is_removed;
@@ -302,6 +301,7 @@ spa.model = (function() {
         i,
         person_map,
         make_person_map,
+        person,
         people_list = arg_list[0],
         is_chatee_online = false;
 
@@ -328,9 +328,11 @@ spa.model = (function() {
             id: person_map._id,
             name: person_map.name
           };
+          person = makePerson(make_person_map);
           if (chatee && chatee.id === make_person_map.id)
           {
             is_chatee_online = true;
+            chatee = person;
           }
           makePerson(make_person_map);
         }
