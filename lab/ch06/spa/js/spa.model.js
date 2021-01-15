@@ -210,11 +210,12 @@ spa.model = (function() {
 
     logout = function() {
       var
+        is_removed,
         user = stateMap.user;
+      // When we add chat, we should leave the chatroom here.
 
-      chat.leave();
+      is_removed = removePerson(user);
       stateMap.user = stateMap.anon_user;
-      clearPeopleDb();
 
       $.gevent.publish('spa-logout', [user]);
       return is_removed;
