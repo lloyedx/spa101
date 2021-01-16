@@ -78,7 +78,7 @@ spa.model = (function() {
   //     presentation.
   personProto = {
     get_is_user: function() {
-      return this.cid === stateMap.anon_user.cid;
+      return this.cid === stateMap.user.cid;
     },
     get_is_anon: function() {
       return this.cid === stateMap.anon_user.cid;
