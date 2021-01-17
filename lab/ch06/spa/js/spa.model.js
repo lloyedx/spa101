@@ -335,7 +335,6 @@ spa.model = (function() {
             is_chatee_online = true;
             chatee = person;
           }
-          makePerson(make_person_map);
         }
       }
 
